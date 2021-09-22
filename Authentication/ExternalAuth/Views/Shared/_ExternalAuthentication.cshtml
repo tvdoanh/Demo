@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using ExternalAuth.Data
+
+@model ExternalAuth.ViewModels.LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+
+@if (Model.VisibleExternalProviders.Any())
+{
+    int i = 0;
+    var bgColor = "danger";
+    <div class="social-auth-links text-center mt-2 mb-3">
+        @foreach (var provider in Model.VisibleExternalProviders)
+            {
+                i = i + 1;
+                if (i % 2 == 0)
+                    bgColor = "primary";
+ 
+            <a class="btn btn-block btn-@bgColor"
+               asp-controller="Account"
+               asp-action="External"
+               asp-route-scheme="@provider.AuthenticationScheme"
+               asp-route-returnUrl="@Model.ReturnUrl">
+                <i class="fab fa-@provider.AuthenticationScheme.ToLower() mr-2"></i>&nbsp;
+                Đăng nhập bằng tài khoản @provider.DisplayName
+            </a>
+        }
+    </div>
+}
